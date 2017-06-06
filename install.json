@@ -22,26 +22,38 @@
   "options": {
     "properties": {
       "text": {
-        "order": 2,
+        "order": 1,
         "title": "Message text",
         "type": "string",
         "format": "textarea",
         "default": "We just launched an amazing new product!"
       },
+      "showLink": {
+        "order": 2,
+        "title": "Show a button link",
+        "type": "boolean",
+        "default": true
+      },
       "buttonText": {
         "order": 3,
+        "showIf": {
+          "showLink": true
+        },
         "title": "Button text",
         "type": "string",
         "default": "Take me there"
       },
       "linkAddress": {
         "order": 4,
+        "showIf": {
+          "showLink": true
+        },
         "title": "URL to drive traffic to",
         "type": "string",
         "default": "https://cloudflare.com/apps"
       },
       "color": {
-        "order": 14,
+        "order": 5,
         "title": "Accent color",
         "type": "string",
         "format": "color",

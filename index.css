@@ -53,7 +53,7 @@ html > body > .cfapps-welcome-bar {
   font-size: 16px !important;
   width: 100%;
   max-width: 100%;
-  padding: .5em 8em !important;
+  padding: .5em 5em !important;
   color: #fff;
   font-weight: bold;
   text-align: center !important;
@@ -129,90 +129,44 @@ html > body > .cfapps-welcome-bar {
     color: rgba(0, 0, 0, .7)
   }
 
-    @media (max-width: 40em) {
-      html[cfapps-welcome-bar-goal="cta"] .cfapps-welcome-bar-content,
-      html[cfapps-welcome-bar-goal="signup"] .cfapps-welcome-bar-content {
-        margin-bottom: .5em !important
-      }
-    }
-
     .cfapps-welcome-bar-text {
       display: inline-block !important;
       line-height: 1.3em !important;
       margin: 0 .6em .4em .6em !important
     }
 
-    html[cfapps-welcome-bar-goal="announcement"] .cfapps-welcome-bar-text {
-      margin-top: .4em !important
+    .cfapps-welcome-bar[with-hidden-link] .cfapps-welcome-bar-text {
+      margin-top: .525em !important;
+      margin-bottom: .525em !important
     }
 
-    .cfapps-welcome-bar-form {
+    @media (max-width: 40em) {
+      .cfapps-welcome-bar[with-hidden-link] .cfapps-welcome-bar-text {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important
+      }
+    }
+
+    .cfapps-welcome-bar-content-inner {
       display: inline-block !important;
       margin: 0 .5em !important
     }
 
     @media (max-width: 40em) {
-      .cfapps-welcome-bar-form {
+      .cfapps-welcome-bar-content-inner {
         display: block !important
       }
-    }
-
-    input.cfapps-welcome-bar-input {
-      display: inline-block !important;
-      appearance: none;
-      font-family: inherit !important;
-      -webkit-tap-highlight-color: transparent;
-      text-rendering: optimizeLegibility;
-      color: #fff;
-      font-weight: bold;
-      background: rgba(0, 0, 0, .35) !important;
-      border: 0 !important;
-      font-size: .9em !important;
-      padding: .65em .8em .6em !important;
-      height: auto !important;
-      margin-right: .5em !important;
-      width: 16em !important;
-      border-radius: .1875em
-    }
-
-    @media (max-width: 50em) {
-      input.cfapps-welcome-bar-input {
-        width: 10em !important
-      }
-    }
-
-    @media (max-width: 40em) {
-      input.cfapps-welcome-bar-input {
-        width: 100% !important;
-        margin-bottom: .5em !important
-      }
-    }
-
-    input.cfapps-welcome-bar-input::-webkit-input-placeholder {
-      color: rgba(255, 255, 255, .5);
-      font-family: inherit
-    }
-
-    input.cfapps-welcome-bar-input:-moz-placeholder {
-      color: rgba(255, 255, 255, .5);
-      font-family: inherit
-    }
-
-    input.cfapps-welcome-bar-input::-moz-placeholder {
-      color: rgba(255, 255, 255, .5);
-      font-family: inherit
-    }
-
-    input.cfapps-welcome-bar-input:-ms-input-placeholder {
-      color: rgba(255, 255, 255, .5);
-      font-family: inherit
     }
 
     .cfapps-welcome-bar-link {
       display: inline !important
     }
 
-    cfapps-welcome-bar button.cfapps-welcome-bar-button {
+    .cfapps-welcome-bar[with-hidden-link] .cfapps-welcome-bar-content-inner {
+      display: none !important
+    }
+
+    .cfapps-welcome-bar button.cfapps-welcome-bar-button {
       position: relative !important;
       display: inline-block !important;
       vertical-align: baseline !important;
@@ -322,10 +276,6 @@ html > body > .cfapps-welcome-bar {
         text-align: center !important;
         margin: 0 !important;
         padding: 0 !important
-      }
-
-      html[cfapps-welcome-bar-goal="announcement"] .cfapps-welcome-bar-branding {
-        display: none !important
       }
     }
 

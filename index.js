@@ -18,8 +18,6 @@
   };
 
   var update = function() {
-    document.documentElement.setAttribute('cfapps-welcome-bar-goal', options.goal);
-
     updateColors();
     updateCopy();
 
@@ -49,14 +47,11 @@
       '<div class="cfapps-welcome-bar-close-button"></div>' +
       '<div class="cfapps-welcome-bar-content">' +
         '<div class="cfapps-welcome-bar-text"></div>' +
-        '<div class="cfapps-welcome-bar-form">' +
+        '<div class="cfapps-welcome-bar-content-inner">' +
           '<a target="_blank" class="cfapps-welcome-bar-link">' +
             '<button class="cfapps-welcome-bar-button"></button>' +
           '</a>' +
         '</div>' +
-      '</div>' +
-      '<div class="cfapps-welcome-bar-branding">' +
-        '<a class="cfapps-welcome-bar-branding-link" href="https://www.cloudflare.com/apps?utm_source=lead_line_powered_by_link" target="_blank">Powered by Cloudflare Apps</a>' +
       '</div>' +
     '';
 
@@ -72,6 +67,12 @@
 
     el.querySelector('.cfapps-welcome-bar-close-button').addEventListener('click', hide);
     linkEl.addEventListener('click', hide);
+
+    if (!options.showLink) {
+      el.setAttribute('with-hidden-link', '')
+    } else {
+      el.removeAttribute('with-hidden-link')
+    }
   }
 
   var htmlStyle = document.createElement('style');
