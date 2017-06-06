@@ -1,0 +1,20 @@
+{
+  "name": "WelcomeBar",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CloudflareApps/WelcomeBar.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CloudflareApps/WelcomeBar/issues"
+  },
+  "homepage": "https://www.cloudflare.com/apps/welcome-bar",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-es6-module-transpiler": "^0.2.2"
+  }
+}

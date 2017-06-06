@@ -1,0 +1,52 @@
+{
+  "resources": {
+    "head": [
+      {
+        "type": "style",
+        "src": "index.css"
+      },
+      {
+        "type": "script",
+        "src": "index.js"
+      }
+    ]
+  },
+  "preview": {
+    "handlers": [
+      {
+        "options": ["*"],
+        "execute": "CloudflareWelcomeBar.setOptions(INSTALL_OPTIONS); CloudflareWelcomeBar.show();"
+      }
+    ]
+  },
+  "options": {
+    "properties": {
+      "text": {
+        "order": 2,
+        "title": "Message text",
+        "type": "string",
+        "format": "textarea",
+        "default": "We just launched an amazing new product!"
+      },
+      "buttonText": {
+        "order": 3,
+        "title": "Button text",
+        "type": "string",
+        "default": "Take me there"
+      },
+      "linkAddress": {
+        "order": 4,
+        "title": "URL to drive traffic to",
+        "type": "string",
+        "default": "https://cloudflare.com/apps"
+      },
+      "color": {
+        "order": 14,
+        "title": "Accent color",
+        "type": "string",
+        "format": "color",
+        "default": "#0099ff"
+      }
+    }
+  }
+}
