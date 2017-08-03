@@ -1,0 +1,159 @@
+/*
+  Specificity to combat things like this (from CNN.com as of 6/6/16):
+
+  body > :not(.nav) {
+    -webkit-transform: none !important;
+    transform: none !important;
+  }
+*/
+html > body > cloudflare-app[app="welcome-bar"] {
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.5em;
+  line-height: 1;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  transform: translate3d(0, -300%, 0);
+}
+
+html > body > cloudflare-app[app="welcome-bar"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .05);
+  transform: translate3d(-100%, 0, 0);
+}
+
+html > body > cloudflare-app[app="welcome-bar"][data-slide-animation]::before {
+  transition: transform ease-out 8s;
+}
+
+html > body > cloudflare-app[app="welcome-bar"][data-slide-animation="complete"]::before {
+  transform: translate3d(0, 0, 0);
+}
+
+html[data-cf-welcome-bar-visibility="visible"] > body > cloudflare-app[app="welcome-bar"] {
+  transform: translate3d(0, 0, 0) !important;
+}
+
+cloudflare-app[app="welcome-bar"] alert-message {
+  display: flex;
+  align-items: center;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "cfapps-welcome-bar-icons";
+  font-style: normal;
+  font-weight: normal;
+  src: url(data:application/x-font-woff;charset=utf-8;base64,d09GRk9UVE8AAAOgAAoAAAAABXwAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABDRkYgAAAA9AAAAMAAAADRKjcpT0ZGVE0AAAG0AAAAGgAAABxzCc2eT1MvMgAAAdAAAABIAAAAYIDKBSljbWFwAAACGAAAADcAAAFCAA0i4WhlYWQAAAJQAAAALwAAADYDttYWaGhlYQAAAoAAAAAgAAAAJAatAehobXR4AAACoAAAAAgAAAAIA/oAAG1heHAAAAKoAAAABgAAAAYAAlAAbmFtZQAAArAAAADYAAABsEnBB1pwb3N0AAADiAAAABYAAAAg/50AZ3icY2RgYWFgZGTkSU1MTy3SzUzOzytmYGRiYGRw/CHD9EOW+YcESw8PYwQP80ceFjkuBpYODfnubjiDh7275MekXx2sMgxd/DIMDAIyDL2CMgwcMgwnhRiYQcbwMkgwKBdlpmeUJGeklhXl5yFZhGwnAwNjOwMTI6OCeffHXzwfGT9+/PCR+aPY96O/bvw+yvbxX5HoL54P/3jY+X5M+tEi+if8x4yAiB9af1L/APGxUFa+HxNFukW7ebgAOkZGo3icY2BgYGQAggsFDokg+qLPsXkwGgBEYgblAAB4nGNgZvzLOIGBlYGD1Zh1JgMDoxyEZr7OkMYkxAAErAwQ0MCACgLSXFMYHBSsFKzY0v6lMexg/sIgDhRmhCtQAEJGAEQ9C294nGNgYGBmgGAZBkYGELAB8hjBfBYGBSDNAoRAvoLV//8Q8v5xqEoGRjYGGHN4AiI8BwCY4gcNAHicY2BkYGAA4i3P72rH89t8ZeDmYACBiz7H5iHo/y8Z/zF/AXI5GJhAogBqdw1CAHicY2BkYGD+8v8lww7GvwwM//8z/mMAiqAAJgDAhweXAf0AAAH9AAAAAFAAAAIAAHicjY+9DcIwEIVfIEHiR5SI0gUSlSM7AgoGoKSkR8iK0sSSwwyMwBiMwQCMwQDUPJsrKCiwdPZ3d+9+DGCCKzLEk2GMuXAPBYxwH0tchHNq7sIF+Sk8wDibUpnlQ0ZmqSpyDyMshPvYYyOcU3MTLsgP4QH5BYcjat4BGg1O8GjRAe5Yu6Cbk2/pfMUlskv+Ob0h1StUKPkPhS3td9dPzlKlsaJVJIs12/n2vPOhdqoqjdqqr+n0rNErXRlL4T/bHlK+Yz5m47y4Fw4udI1vlS3NX33eEhBDMnicY2BmAIP/sxjSgBQjAxoAAC6qAgQAAA==) format("woff");
+}
+
+cloudflare-app[app="welcome-bar"] .alert-cta-button {
+  display: flex !important;
+  align-items: center !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  display: inline-block !important;
+  font-size: .85em !important;
+  font-weight: bold !important;
+  height: auto !important;
+  letter-spacing: .08em;
+  max-width: 16em !important;
+  opacity: .85;
+  overflow: hidden !important;
+  position: relative !important;
+  text-decoration: none !important;
+  text-indent: .08em;
+  text-overflow: ellipsis !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  width: auto !important;
+}
+
+cloudflare-app[app="welcome-bar"] .alert-cta-button::after {
+  color: inherit !important;
+  content: "\203A";
+  display: inline-block !important;
+  font-family: "cfapps-welcome-bar-icons";
+  font-size: 1.3em !important;
+  font-style: normal;
+  font-weight: inherit;
+  line-height: 1 !important;
+  margin-bottom: auto !important;
+  margin-top: auto !important;
+  padding-left: .3em !important;
+  padding-bottom: 1px !important;
+}
+
+cloudflare-app[app="welcome-bar"] alert-dismiss {
+  cursor: pointer;
+  color: rgba(10, 10, 10, .25);
+  display: inline-block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 2em;
+  font-weight: 300;
+  height: 1em;
+  line-height: .75em;
+  margin-right: .2em;
+  position: absolute;
+  right: 0;
+  user-select: none;
+  width: 1em;
+}
+
+cloudflare-app[app="welcome-bar"] alert-dismiss:hover {
+  color: rgba(10, 10, 10, .5);
+}
+
+html > body > cloudflare-app[app="welcome-bar"][data-style="slim"] {
+  font-size: .92em;
+  min-height: 2.2em;
+}
+
+html > body > cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button {
+  border-radius: .15em;
+}
+
+@media (min-width: 768px) {
+  cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button {
+    padding: .65em .9em .6em .9em !important;
+  }
+
+  cloudflare-app[app="welcome-bar"] .alert-cta-button {
+    margin-left: 1em;
+  }
+}
+
+@media (max-width: 768px) {
+  html > body > cloudflare-app[app="welcome-bar"] {
+    flex-flow: column;
+    align-items: flex-start;
+    padding: .5em 3em .5em .5em;
+  }
+
+  cloudflare-app[app="welcome-bar"] .alert-cta-button {
+    margin-top: .5em;
+    display: block !important;
+    flex: 0 0 auto;
+  }
+
+  cloudflare-app[app="welcome-bar"] alert-message {
+    flex-flow: column nowrap !important;
+    align-items: flex-start !important;
+  }
+}
+

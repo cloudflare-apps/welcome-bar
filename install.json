@@ -1,63 +1,164 @@
 {
   "resources": {
-    "head": [
+    "body": [
       {
         "type": "style",
-        "src": "index.css"
+        "src": "./build/app.css"
       },
       {
         "type": "script",
-        "src": "index.js"
+        "src": "./build/app.js"
       }
     ]
   },
   "preview": {
     "handlers": [
       {
-        "options": ["*"],
-        "execute": "CloudflareWelcomeBar.setOptions(INSTALL_OPTIONS); CloudflareWelcomeBar.show();"
+        "options": ["_default"],
+        "execute": "INSTALL_SCOPE.setOptions(INSTALL_OPTIONS)"
+      },
+      {
+        "options": ["theme"],
+        "execute": "INSTALL_SCOPE.setTheme(INSTALL_OPTIONS)"
       }
     ]
   },
   "options": {
     "properties": {
-      "text": {
-        "order": 1,
-        "title": "Message text",
+      "message": {
+        "title": "Message",
         "type": "string",
-        "format": "textarea",
+        "order": 0,
         "default": "We just launched an amazing new product!"
       },
-      "showLink": {
-        "order": 2,
-        "title": "Show a button link",
-        "type": "boolean",
-        "default": true
+
+      "cta": {
+        "order": 1,
+        "title": "Action Button",
+        "type": "object",
+        "properties": {
+          "show": {
+            "order": 0,
+            "title": "Show action button",
+            "type": "boolean",
+            "default": true
+          },
+
+          "label": {
+            "showIf": "cta.show",
+            "order": 1,
+            "title": "Label",
+            "type": "string",
+            "placeholder": "More info"
+          },
+
+          "url": {
+            "showIf": "cta.show",
+            "order": 2,
+            "title": "URL to drive traffic to",
+            "type": "string",
+            "format": "url"
+          },
+
+          "newWindow": {
+            "showIf": "cta.show",
+            "order": 3,
+            "title": "Open URL in new window",
+            "type": "boolean"
+          }
+        }
       },
-      "buttonText": {
+
+      "behavior": {
         "order": 3,
-        "showIf": {
-          "showLink": true
-        },
-        "title": "Button text",
-        "type": "string",
-        "default": "Take me there"
+        "title": "Dismissal Behavior",
+        "type": "object",
+        "properties": {
+          "showCloseButton": {
+            "order": 0,
+            "title": "Show close button",
+            "type": "boolean",
+            "default": true
+          },
+
+          "automaticallyHide": {
+            "order": 2,
+            "title": "Automatically dismiss after a few seconds",
+            "type": "boolean",
+            "default": true
+          }
+        }
       },
-      "linkAddress": {
+
+      "theme": {
+        "title": "Theme",
+        "type": "object",
         "order": 4,
-        "showIf": {
-          "showLink": true
-        },
-        "title": "URL to drive traffic to",
-        "type": "string",
-        "default": "https://cloudflare.com/apps"
-      },
-      "color": {
-        "order": 5,
-        "title": "Accent color",
-        "type": "string",
-        "format": "color",
-        "default": "#0099ff"
+        "properties": {
+          "style": {
+            "order": 0,
+            "title": "Style",
+            "type": "string",
+            "format": "radios",
+            "default": "prominent",
+            "enum": [
+              "slim",
+              "prominent"
+            ],
+            "enumNames": {
+              "slim": "Slim",
+              "prominent": "Prominent"
+            }
+          },
+
+          "backgroundColor": {
+            "title": "Background color",
+            "type": "string",
+            "format": "color",
+            "order": 1,
+            "default": "#0099ff"
+          },
+
+          "textColor": {
+            "title": "Text Color",
+            "type": "string",
+            "format": "color",
+            "order": 2,
+            "default": "#ffffff"
+          },
+
+          "buttonColorHelp": {
+            "showIf": {
+              "theme.style": "prominent"
+            },
+            "order": 3,
+            "type": "help",
+            "helpvalue": "<span class='subtle-text'><strong>Note:</strong> Button colors are disabled on mobile screens.</span>"
+          },
+
+          "buttonBackgroundColor": {
+            "showIf": {
+              "theme.style": "prominent"
+            },
+            "title": "Button Background Color",
+            "type": "string",
+            "format": "color",
+            "order": 3,
+            "default": "#ffffff"
+          },
+
+          "buttonTextColor": {
+            "showIf": {
+              "theme.style": "prominent"
+            },
+            "title": "Button Text Color",
+            "description": "Set to “auto” to match the Welcome Bar background.",
+            "type": "string",
+            "format": "color",
+            "order": 4,
+            "default": "auto"
+          }
+        }
       }
     }
   }
