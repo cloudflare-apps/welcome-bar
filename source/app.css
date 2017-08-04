@@ -51,7 +51,9 @@ cloudflare-app[app="welcome-bar"] alert-message {
   display: flex;
   align-items: center;
   font-size: 1.1em;
+  line-height: 1.2;
   font-weight: 500;
+  max-width: 600px;
 }
 
 @font-face {
@@ -68,6 +70,7 @@ cloudflare-app[app="welcome-bar"] .alert-cta-button {
   box-shadow: none !important;
   cursor: pointer !important;
   display: inline-block !important;
+  flex: 0 0 auto !important;
   font-size: .85em !important;
   font-weight: bold !important;
   height: auto !important;

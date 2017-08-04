@@ -28,8 +28,9 @@
       "message": {
         "title": "Message",
         "type": "string",
+        "format": "textarea",
         "order": 0,
-        "default": "We just launched an amazing new product!"
+        "placeholder": "We just launched an amazing new product!"
       },
 
       "cta": {
@@ -85,7 +86,7 @@
             "order": 2,
             "title": "Automatically dismiss after a few seconds",
             "type": "boolean",
-            "default": true
+            "default": false
           }
         }
       },
@@ -112,7 +113,7 @@
           },
 
           "backgroundColor": {
-            "title": "Background color",
+            "title": "Welcome Bar background color",
             "type": "string",
             "format": "color",
             "order": 1,
@@ -120,7 +121,7 @@
           },
 
           "textColor": {
-            "title": "Text Color",
+            "title": "Message text color",
             "type": "string",
             "format": "color",
             "order": 2,
@@ -133,30 +134,49 @@
             },
             "order": 3,
             "type": "help",
-            "helpvalue": "<span class='subtle-text'><strong>Note:</strong> Button colors are disabled on mobile screens.</span>"
+            "helpvalue": "<strong>Note:</strong> Buttons will appear as text in the <strong>Message text color</strong> on mobile devices."
           },
 
           "buttonBackgroundColor": {
             "showIf": {
               "theme.style": "prominent"
             },
-            "title": "Button Background Color",
+            "title": "Button background color",
             "type": "string",
             "format": "color",
-            "order": 3,
+            "order": 4,
             "default": "#ffffff"
+          },
+
+          "buttonTextColorStrategy": {
+            "showIf": {
+              "theme.style": "prominent"
+            },
+            "order": 5,
+            "default": "auto",
+            "title": "Button text color",
+            "type": "string",
+            "format": "radios",
+            "enum": [
+              "auto",
+              "custom"
+            ],
+            "enumNames": {
+              "auto": "Match the Welcome Bar background",
+              "custom": "Custom"
+            }
           },
 
           "buttonTextColor": {
             "showIf": {
-              "theme.style": "prominent"
+              "theme.style": "prominent",
+              "theme.buttonTextColorStrategy": "custom"
             },
-            "title": "Button Text Color",
-            "description": "Set to “auto” to match the Welcome Bar background.",
+            "notitle": true,
             "type": "string",
             "format": "color",
-            "order": 4,
-            "default": "auto"
+            "order": 6,
+            "default": "#0099ff"
           }
         }
       }

@@ -117,14 +117,6 @@
     } catch (e) {}
 
     setPageStyles()
-
-    if (INSTALL_ID === 'preview') {
-      setTimeout(() => {
-        document.documentElement.setAttribute(VISIBILITY_ATTRIBUTE, 'visible')
-        setPageStyles()
-        updateAnimation()
-      }, 2000)
-    }
   }
 
   function cancelAnimation () {
@@ -162,7 +154,7 @@
       @media (min-width: 768px) {
         cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button {
           background-color: ${options.theme.buttonBackgroundColor} !important;
-          color: ${options.theme.buttonTextColor === 'auto' ? options.theme.backgroundColor : options.theme.buttonTextColor} !important;
+          color: ${options.theme.buttonTextColorStrategy === 'auto' ? options.theme.backgroundColor : options.theme.buttonTextColor} !important;
         }
       }
     `
@@ -184,7 +176,8 @@
     element.style.zIndex = getMaxZIndex() + 1
 
     const message = document.createElement('alert-message')
-    message.innerHTML = options.message
+    // NOTE: this fixes an oddity in the App Bundler that omits blank strings.
+    message.innerHTML = (options.message || '').trim() || 'We just launched an amazing new product!'
 
     element.appendChild(message)
 
