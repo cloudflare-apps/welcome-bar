@@ -10,7 +10,7 @@ html > body > cloudflare-app[app="welcome-bar"] {
   display: block;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   min-height: 3.5em;
   line-height: 1;
   overflow: hidden;
@@ -49,11 +49,17 @@ html[data-cf-welcome-bar-visibility="visible"] > body > cloudflare-app[app="welc
 
 cloudflare-app[app="welcome-bar"] alert-message {
   display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+cloudflare-app[app="welcome-bar"] alert-message-content {
+  display: flex;
   align-items: center;
   font-size: 1.1em;
   line-height: 1.2;
   font-weight: 500;
-  max-width: 600px;
+  max-width: 700px;
 }
 
 @font-face {
@@ -75,9 +81,10 @@ cloudflare-app[app="welcome-bar"] .alert-cta-button {
   font-weight: bold !important;
   height: auto !important;
   letter-spacing: .08em;
+  line-height: .95 !important;
   max-width: 16em !important;
   opacity: .85;
-  overflow: hidden !important;
+  overflow: visible !important;
   position: relative !important;
   text-decoration: none !important;
   text-indent: .08em;
@@ -95,27 +102,27 @@ cloudflare-app[app="welcome-bar"] .alert-cta-button::after {
   font-size: 1.3em !important;
   font-style: normal;
   font-weight: inherit;
-  line-height: 1 !important;
+  line-height: .83 !important;
   margin-bottom: auto !important;
   margin-top: auto !important;
   padding-left: .3em !important;
-  padding-bottom: 1px !important;
+  position: absolute;
+  left: 100%;
 }
 
 cloudflare-app[app="welcome-bar"] alert-dismiss {
   cursor: pointer;
   color: rgba(10, 10, 10, .25);
   display: inline-block;
+  flex: 0 0 auto;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 2em;
   font-weight: 300;
   height: 1em;
   line-height: .75em;
-  margin-right: .2em;
-  position: absolute;
-  right: 0;
+  margin: 0 .2em;
   user-select: none;
-  width: 1em;
+  width: .9em;
 }
 
 cloudflare-app[app="welcome-bar"] alert-dismiss:hover {
@@ -133,7 +140,11 @@ html > body > cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-c
 
 @media (min-width: 768px) {
   cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button {
-    padding: .65em .9em .6em .9em !important;
+    padding: .65em 1.75em .6em .9em !important;
+  }
+
+  cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button::after {
+    left: auto;
   }
 
   cloudflare-app[app="welcome-bar"] .alert-cta-button {
@@ -143,9 +154,10 @@ html > body > cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-c
 
 @media (max-width: 768px) {
   html > body > cloudflare-app[app="welcome-bar"] {
-    flex-flow: column;
-    align-items: flex-start;
-    padding: .5em 3em .5em .5em;
+    align-items: center;
+    font-size: .92em;
+    min-height: 2.2em;
+    padding: .5em 0 .5em .5em;
   }
 
   cloudflare-app[app="welcome-bar"] .alert-cta-button {
@@ -154,7 +166,7 @@ html > body > cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-c
     flex: 0 0 auto;
   }
 
-  cloudflare-app[app="welcome-bar"] alert-message {
+  cloudflare-app[app="welcome-bar"] alert-message-content {
     flex-flow: column nowrap !important;
     align-items: flex-start !important;
   }

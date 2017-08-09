@@ -152,7 +152,9 @@
       }
 
       @media (min-width: 768px) {
-        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button {
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button,
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button:hover,
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button:active {
           background-color: ${options.theme.buttonBackgroundColor} !important;
           color: ${options.theme.buttonTextColorStrategy === 'auto' ? options.theme.backgroundColor : options.theme.buttonTextColor} !important;
         }
@@ -175,11 +177,12 @@
     element.innerHTML = ''
     element.style.zIndex = getMaxZIndex() + 1
 
-    const message = document.createElement('alert-message')
-    // NOTE: this fixes an oddity in the App Bundler that omits blank strings.
-    message.innerHTML = (options.message || '').trim() || 'We just launched an amazing new product!'
+    const messageContainer = document.createElement('alert-message')
+    const messageContent = document.createElement('alert-message-content')
 
-    element.appendChild(message)
+    // NOTE: this fixes an oddity in the App Bundler that omits blank strings.
+    messageContent.textContent = (options.message || '').trim() || 'We just launched an amazing new product!'
+    messageContainer.appendChild(messageContent)
 
     if (options.cta.show) {
       const ctaButton = document.createElement('a')
@@ -190,8 +193,10 @@
 
       if (options.cta.url) ctaButton.href = options.cta.url
 
-      message.appendChild(ctaButton)
+      messageContent.appendChild(ctaButton)
     }
+
+    element.appendChild(messageContainer)
 
     if (options.behavior.showCloseButton) {
       const dismissButton = document.createElement('alert-dismiss')
