@@ -151,6 +151,14 @@
         color: ${options.theme.textColor};
       }
 
+      @media (max-width: 768px) {
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button,
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button:hover,
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button:active {
+          color: ${options.theme.textColor};
+        }
+      }
+
       @media (min-width: 768px) {
         cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button,
         cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button:hover,
