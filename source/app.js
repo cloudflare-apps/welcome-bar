@@ -1,9 +1,13 @@
+import deepEqual from 'deep-equal'
+
 (function () {
   'use strict'
 
   if (!window.addEventListener) return // Check for IE9+
 
   let options = INSTALL_OPTIONS
+  let product = INSTALL_PRODUCT
+  let previewMessageIndex = 0
   const VISIBILITY_ATTRIBUTE = 'data-cf-welcome-bar-visibility'
   const documentElementOriginallyPositionStatic = window.getComputedStyle(document.documentElement).position === 'static'
 
@@ -172,14 +176,47 @@
     element.setAttribute('data-style', options.theme.style)
   }
 
-  function updateElement () {
+  function shouldShow () {
+    if (!options.messages.length) return false
+    if (INSTALL_ID === 'preview') return true
+
     let hasSeenAlert = false
+    const isPro = product && product.id === 'pro'
 
     try {
       hasSeenAlert = window.localStorage.cfAlertBarOptions === JSON.stringify(options)
     } catch (e) {}
 
-    if (hasSeenAlert && INSTALL_ID !== 'preview') return
+    if (hasSeenAlert) return false
+
+    if (isPro && options.behavior.useEndDate) {
+      const endDate = new Date(options.behavior.endDate)
+      const now = new Date()
+
+      if (endDate < now) return false
+    }
+
+    return true
+  }
+
+  function updateElement () {
+    if (!shouldShow()) {
+      hideWelcomeBar()
+      return
+    }
+
+    let messageIndex
+
+    if (INSTALL_ID === 'preview') {
+      // Show the message last edited.
+      messageIndex = previewMessageIndex
+    } else {
+      messageIndex = Math.floor(Math.random() * options.messages.length)
+    }
+
+    if (!options.messages.length) return
+
+    const {message, cta} = options.messages[messageIndex]
 
     updateElementStyle()
     element.innerHTML = ''
@@ -189,17 +226,17 @@
     const messageContent = document.createElement('alert-message-content')
 
     // NOTE: this fixes an oddity in the App Bundler that omits blank strings.
-    messageContent.textContent = (options.message || '').trim() || 'We just launched an amazing new product!'
+    messageContent.textContent = (message || '').trim() || 'We just launched an amazing new product!'
     messageContainer.appendChild(messageContent)
 
-    if (options.cta.show) {
+    if (cta.show) {
       const ctaButton = document.createElement('a')
       ctaButton.className = 'alert-cta-button'
-      ctaButton.textContent = options.cta.label.trim() || 'More info'
+      ctaButton.textContent = (cta.label || '').trim() || 'More info'
 
-      if (options.cta.newWindow) ctaButton.target = '_blank'
+      if (cta.newWindow) ctaButton.target = '_blank'
 
-      if (options.cta.url) ctaButton.href = options.cta.url
+      if (cta.url) ctaButton.href = cta.url
 
       messageContent.appendChild(ctaButton)
     }
@@ -240,13 +277,34 @@
 
   // INSTALL_SCOPE is an object that is used to handle option changes without refreshing the page.
   window.INSTALL_SCOPE = {
-    setOptions (nextOptions) {
+    updateOptions (nextOptions) {
+      if (nextOptions.messages.length !== options.messages.length) {
+        // Customer changed number of entries.
+        previewMessageIndex = nextOptions.messages.length - 1
+      } else {
+        for (let i = 0; i < nextOptions.messages.length; i++) {
+          const oldEntry = options.messages[i]
+          const nextEntry = nextOptions.messages[i]
+
+          if (!deepEqual(nextEntry, oldEntry)) {
+            previewMessageIndex = i
+            break
+          }
+        }
+      }
+
       options = nextOptions
 
       updateElement()
       setPageStyles()
     },
-    setTheme (nextOptions) {
+    updateProduct (nextProduct) {
+      product = nextProduct
+
+      updateElement()
+      setPageStyles()
+    },
+    updateTheme (nextOptions) {
       const themeStyleChanged = nextOptions.theme.style !== options.theme.style
       options = nextOptions
 

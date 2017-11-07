@@ -102,8 +102,8 @@ cloudflare-app[app="welcome-bar"] .alert-cta-button::after {
   font-size: 1.3em !important;
   font-style: normal;
   font-weight: inherit;
-  line-height: .83 !important;
-  margin-bottom: auto !important;
+  line-height: .8 !important;
+  margin-top: -1px !important;
   margin-top: auto !important;
   padding-left: .3em !important;
   position: absolute;

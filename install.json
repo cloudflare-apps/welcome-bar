@@ -14,27 +14,61 @@
   "preview": {
     "handlers": [
       {
+        "options": ["_product"],
+        "execute": "INSTALL_SCOPE.updateProduct(INSTALL_PRODUCT)"
+      },
+      {
         "options": ["_default"],
-        "execute": "INSTALL_SCOPE.setOptions(INSTALL_OPTIONS)"
+        "execute": "INSTALL_SCOPE.updateOptions(INSTALL_OPTIONS)"
       },
       {
         "options": ["theme"],
-        "execute": "INSTALL_SCOPE.setTheme(INSTALL_OPTIONS)"
+        "execute": "INSTALL_SCOPE.updateTheme(INSTALL_OPTIONS)"
       }
     ]
   },
   "options": {
     "properties": {
+      "messagePlan": {
+        "type": "string",
+        "format": "radios",
+        "order": 0,
+        "enum": [
+          "single",
+          "multiple"
+        ],
+        "title": "How many messages should your vistors see?",
+        "enumNames": {
+          "single": "A single message",
+          "multiple": "A random message from a set"
+        },
+        "products": {
+          "multiple": ["pro"]
+        }
+      },
+
       "message": {
+        "showIf": {
+          "messagePlan": {
+            "op": "==",
+            "value": "single"
+          }
+        },
+        "order": 0,
         "title": "Message",
         "type": "string",
         "format": "textarea",
-        "order": 0,
         "placeholder": "We just launched an amazing new product!"
       },
 
       "cta": {
         "order": 1,
+        "showIf": {
+          "messagePlan": {
+            "op": "==",
+            "value": "single"
+          }
+        },
         "title": "Action Button",
         "type": "object",
         "properties": {
@@ -70,6 +104,81 @@
         }
       },
 
+      "messages": {
+        "order": 1,
+        "type": "array",
+        "title": "Messages",
+        "description": "Add multiple messages to show one to vistors at random.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "title": "Message",
+              "type": "string",
+              "format": "textarea",
+              "order": 0,
+              "placeholder": "We just launched an amazing new product!"
+            },
+
+            "cta": {
+              "order": 1,
+              "title": "Action Button",
+              "type": "object",
+              "properties": {
+                "show": {
+                  "order": 0,
+                  "title": "Show action button",
+                  "type": "boolean",
+                  "default": true
+                },
+
+                "label": {
+                  "showIf": "cta.show",
+                  "order": 1,
+                  "title": "Label",
+                  "type": "string",
+                  "placeholder": "More info"
+                },
+
+                "url": {
+                  "showIf": "cta.show",
+                  "order": 2,
+                  "title": "URL to drive traffic to",
+                  "type": "string",
+                  "format": "url"
+                },
+
+                "newWindow": {
+                  "showIf": "cta.show",
+                  "order": 3,
+                  "title": "Open URL in new window",
+                  "type": "boolean"
+                }
+              }
+            },
+
+            "useEndDate": {
+              "order": 2,
+              "title": "Hide after a specific date",
+              "type": "boolean",
+              "default": false,
+              "products": ["pro"]
+            },
+
+            "endDate": {
+              "showIf": "messages[].useEndDate",
+              "order": 3,
+              "title": "End Date",
+              "description": "When should this message stop appearing?",
+              "type": "string",
+              "format": "time",
+              "format": "date-time",
+              "default": "January 1 2020 1:30 PM EST"
+            }
+          }
+        }
+      },
+
       "behavior": {
         "order": 3,
         "title": "Dismissal Behavior",
@@ -86,7 +195,8 @@
             "order": 2,
             "title": "Automatically dismiss after a few seconds",
             "type": "boolean",
-            "default": false
+            "default": false,
+            "products": ["pro"]
           }
         }
       },
@@ -103,12 +213,15 @@
             "format": "radios",
             "default": "prominent",
             "enum": [
-              "slim",
-              "prominent"
+              "prominent",
+              "slim"
             ],
             "enumNames": {
               "slim": "Slim",
               "prominent": "Prominent"
+            },
+            "products": {
+              "slim": ["pro"]
             }
           },
 

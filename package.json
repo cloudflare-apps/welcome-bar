@@ -1,5 +1,5 @@
 {
-  "name": "cloudflare-app-welcome-bar",
+  "name": "@cloudflare-apps/welcome-bar",
   "version": "0.0.0",
   "description": "",
   "private": true,
@@ -10,15 +10,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CloudflareApps/WelcomeBar.git"
+    "url": "git+https://github.com/CloudflareApps/welcome-bar.git"
   },
   "author": "Cloudflare Inc.",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CloudflareApps/WelcomeBar/issues"
+    "url": "https://github.com/CloudflareApps/welcome-bar/issues"
   },
-  "homepage": "https://github.com/CloudflareApps/WelcomeBar#readme",
-  "dependencies": {},
+  "homepage": "https://github.com/CloudflareApps/welcome-bar#readme",
+  "dependencies": {
+    "deep-equal": "^1.0.1"
+  },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
     "babel-core": "^6.24.0",
@@ -41,6 +43,7 @@
       "INSTALL",
       "INSTALL_OPTIONS",
       "INSTALL_SCOPE",
+      "INSTALL_PRODUCT",
       "INSTALL_ID"
     ]
   }
