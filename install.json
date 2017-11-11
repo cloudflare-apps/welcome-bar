@@ -37,10 +37,10 @@
           "single",
           "multiple"
         ],
-        "title": "How many messages should your vistors see?",
+        "title": "How many messages will your vistors see?",
         "enumNames": {
-          "single": "A single message",
-          "multiple": "A random message from a set"
+          "single": "Just one message",
+          "multiple": "Show visitors a random message from a collection"
         },
         "products": {
           "multiple": ["pro"]
@@ -54,7 +54,7 @@
             "value": "single"
           }
         },
-        "order": 0,
+        "order": 1,
         "title": "Message",
         "type": "string",
         "format": "textarea",
@@ -62,7 +62,7 @@
       },
 
       "cta": {
-        "order": 1,
+        "order": 2,
         "showIf": {
           "messagePlan": {
             "op": "==",
@@ -105,10 +105,16 @@
       },
 
       "messages": {
+        "showIf": {
+          "messagePlan": {
+            "op": "==",
+            "value": "multiple"
+          }
+        },
         "order": 1,
         "type": "array",
         "title": "Messages",
-        "description": "Add multiple messages to show one to vistors at random.",
+        "description": "Add multiple messages to show one to vistors at random. The previewer will show your last edited message.",
         "items": {
           "type": "object",
           "properties": {
@@ -187,6 +193,7 @@
           "showCloseButton": {
             "order": 0,
             "title": "Show close button",
+            "description": "Closed messages will stay hidden for 1 week.",
             "type": "boolean",
             "default": true
           },

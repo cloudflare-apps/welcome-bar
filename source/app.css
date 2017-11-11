@@ -11,7 +11,8 @@ html > body > cloudflare-app[app="welcome-bar"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 3.5em;
+  font-size: 16px;
+  min-height: 2.5em;
   line-height: 1;
   overflow: hidden;
   position: fixed;
@@ -139,6 +140,10 @@ html > body > cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-c
 }
 
 @media (min-width: 768px) {
+  cloudflare-app[app="welcome-bar"] {
+    padding: .5em 0;
+  }
+
   cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button {
     padding: .65em 1.75em .6em .9em !important;
   }

@@ -1,14 +1,19 @@
 import deepEqual from 'deep-equal'
+import stringToHash from './string-to-hash'
 
 (function () {
   'use strict'
 
   if (!window.addEventListener) return // Check for IE9+
 
+  let hash
   let options = INSTALL_OPTIONS
   let product = INSTALL_PRODUCT
+  const localStorage = window.localStorage || {}
   let previewMessageIndex = 0
+  const LOCAL_STORAGE_PREFIX = 'cf-welcome-bar-hashes-seen-'
   const VISIBILITY_ATTRIBUTE = 'data-cf-welcome-bar-visibility'
+  const DAY_DURATION = 172800000
   const documentElementOriginallyPositionStatic = window.getComputedStyle(document.documentElement).position === 'static'
 
   const element = document.createElement('cloudflare-app')
@@ -112,16 +117,33 @@ import deepEqual from 'deep-equal'
     return document.documentElement.getAttribute(VISIBILITY_ATTRIBUTE) === 'visible'
   }
 
-  function hideWelcomeBar () {
+  function cleanUpExpiredHashes () {
+    const weekAgo = Date.now() - (DAY_DURATION * 7)
+
+    Object.keys(localStorage)
+      .filter(key => key.startsWith(LOCAL_STORAGE_PREFIX))
+      .filter(key => weekAgo > localStorage[key])
+      .forEach(key => delete localStorage[key])
+  }
+
+  function getLocalStorageKey () {
+    return LOCAL_STORAGE_PREFIX + hash
+  }
+
+  function hideWelcomeBar ({persist} = {persist: false}) {
     document.documentElement.setAttribute(VISIBILITY_ATTRIBUTE, 'hidden')
     element.removeAttribute('data-slide-animation')
 
-    try {
-      window.localStorage.cfAlertBarOptions = JSON.stringify(options)
-    } catch (e) {}
+    if (persist) {
+      try {
+        localStorage[getLocalStorageKey()] = Date.now()
+      } catch (e) {}
+    }
 
     setPageStyles()
   }
+
+  const hideWelcomeBarPersist = hideWelcomeBar.bind(null, {persist: true})
 
   function cancelAnimation () {
     element.removeEventListener('transitionend', hideWelcomeBar)
@@ -176,47 +198,57 @@ import deepEqual from 'deep-equal'
     element.setAttribute('data-style', options.theme.style)
   }
 
-  function shouldShow () {
-    if (!options.messages.length) return false
-    if (INSTALL_ID === 'preview') return true
-
-    let hasSeenAlert = false
-    const isPro = product && product.id === 'pro'
+  // todo check if seen specific entry
+  function hasSeenHash () {
+    let foundHash = false
 
     try {
-      hasSeenAlert = window.localStorage.cfAlertBarOptions === JSON.stringify(options)
+      foundHash = !!localStorage[getLocalStorageKey()]
     } catch (e) {}
 
-    if (hasSeenAlert) return false
-
-    if (isPro && options.behavior.useEndDate) {
-      const endDate = new Date(options.behavior.endDate)
-      const now = new Date()
-
-      if (endDate < now) return false
-    }
-
-    return true
+    return foundHash
   }
 
   function updateElement () {
-    if (!shouldShow()) {
+    const isPro = product && product.id === 'pro'
+
+    let message, cta
+    let shouldShow = true
+
+    // Fix for legacy customers.
+    if (!options.messagePlan || options.messagePlan === 'single') {
+      ({message, cta} = options)
+    } else if (!options.messages.length) {
+      shouldShow = false
+    } else {
+      let messageIndex
+
+      if (INSTALL_ID === 'preview') {
+        // Show the message last edited.
+        messageIndex = previewMessageIndex
+      } else {
+        messageIndex = Math.floor(Math.random() * options.messages.length)
+      }
+
+      if (!options.messages.length) return
+
+      const entry = options.messages[messageIndex]
+      ;({message, cta} = entry)
+
+      if (isPro && entry.useEndDate) {
+        const endDate = new Date(entry.endDate)
+        const now = new Date()
+
+        shouldShow = endDate < now
+      }
+    }
+
+    hash = stringToHash(message)
+
+    if (INSTALL_ID !== 'preview' && (!shouldShow || hasSeenHash())) {
       hideWelcomeBar()
       return
     }
-
-    let messageIndex
-
-    if (INSTALL_ID === 'preview') {
-      // Show the message last edited.
-      messageIndex = previewMessageIndex
-    } else {
-      messageIndex = Math.floor(Math.random() * options.messages.length)
-    }
-
-    if (!options.messages.length) return
-
-    const {message, cta} = options.messages[messageIndex]
 
     updateElementStyle()
     element.innerHTML = ''
@@ -227,6 +259,7 @@ import deepEqual from 'deep-equal'
 
     // NOTE: this fixes an oddity in the App Bundler that omits blank strings.
     messageContent.textContent = (message || '').trim() || 'We just launched an amazing new product!'
+    messageContent.innerHTML = messageContent.innerHTML.replace(/\n/g, '<br />')
     messageContainer.appendChild(messageContent)
 
     if (cta.show) {
@@ -249,7 +282,7 @@ import deepEqual from 'deep-equal'
       dismissButton.setAttribute('role', 'button')
       dismissButton.textContent = '×'
 
-      dismissButton.addEventListener('click', hideWelcomeBar)
+      dismissButton.addEventListener('click', hideWelcomeBarPersist)
 
       element.appendChild(dismissButton)
     }
@@ -260,19 +293,13 @@ import deepEqual from 'deep-equal'
   }
 
   function bootstrap () {
+    cleanUpExpiredHashes()
     document.body.appendChild(element)
 
     updateElement()
 
     window.requestAnimationFrame(setPageStyles)
     window.addEventListener('resize', setPageStyles)
-  }
-
-  // This code ensures that the app doesn't run before the page is loaded.
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bootstrap)
-  } else {
-    bootstrap()
   }
 
   // INSTALL_SCOPE is an object that is used to handle option changes without refreshing the page.
@@ -311,6 +338,18 @@ import deepEqual from 'deep-equal'
       updateElementStyle()
 
       if (themeStyleChanged) setPageStyles()
+
+      if (!isShown()) {
+        // Checking before setting prevents sluggish DOM repaints.
+        document.documentElement.setAttribute(VISIBILITY_ATTRIBUTE, 'visible')
+      }
     }
+  }
+
+  // This code ensures that the app doesn't run before the page is loaded.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootstrap)
+  } else {
+    bootstrap()
   }
 }())
