@@ -9,6 +9,7 @@ import stringToHash from './string-to-hash'
   let hash
   let options = INSTALL_OPTIONS
   let product = INSTALL_PRODUCT
+  var initialized = false;
   const localStorage = window.localStorage || {}
   let previewMessageIndex = 0
   const LOCAL_STORAGE_PREFIX = 'cf-welcome-bar-hashes-seen-'
@@ -347,8 +348,15 @@ import stringToHash from './string-to-hash'
   }
 
   // This code ensures that the app doesn't run before the page is loaded.
+  
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bootstrap)
+    document.addEventListener('DOMContentLoaded', function() {
+      if(initialized == false) {
+        // Only allow the elements to react to DOMContentLoaded one time to prevent issues with rocket loader
+        initialized = true;
+        bootstrap();
+      }
+    })
   } else {
     bootstrap()
   }
