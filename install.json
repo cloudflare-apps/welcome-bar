@@ -11,6 +11,30 @@
       }
     ]
   },
+  "products": [
+    {
+      "created": null,
+      "id": "basic",
+      "longDescription": "",
+      "order": 0,
+      "price": 0,
+      "shortDescription": "Simple notifications with limited options.",
+      "title": "Basic",
+      "visible": true
+    },
+    {
+      "created": null,
+      "feature": "apps.welcome_bar.pro.enabled",
+      "id": "pro",
+      "longDescription": "- Multiple messages\n- Hide the Welcome Bar after a specific date\n- More themes",
+      "order": 0,
+      "plan": "welcome_bar_pro",
+      "price": 300,
+      "shortDescription": "More options and customization",
+      "title": "Pro",
+      "visible": true
+    }
+  ],
   "preview": {
     "handlers": [
       {
